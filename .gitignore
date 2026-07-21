@@ -21,3 +21,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# planning docs (kept local, not published)
+docs/
+.scratch/

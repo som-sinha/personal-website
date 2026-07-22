@@ -1,4 +1,6 @@
 ---
+import "../styles/global.css";
+
 const title = "Som Sinha";
 ---
 
@@ -11,12 +13,43 @@ const title = "Som Sinha";
       name="description"
       content="Personal site of Som Sinha: writing, photography, artworks, performances, dev projects, and resume."
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap"
+      rel="stylesheet"
+    />
     <title>{title}</title>
   </head>
   <body>
     <main>
-      <h1>{title}</h1>
-      <p>Astro scaffold is live. Real content lands in later tickets.</p>
+      <h1 class="logo-heading">{title}</h1>
+      <p class="muted">
+        Theme test placeholder — tokens + Syne Mono. Real content lands in later
+        tickets.
+      </p>
+      <p>
+        <a href="mailto:hello@example.com">Contact link</a> · accent:
+        <span class="accent">toasted almond</span>
+      </p>
     </main>
   </body>
 </html>
+
+<style>
+  .logo-heading {
+    font-family: var(--font-logo);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .muted {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .accent {
+    color: var(--accent);
+  }
+</style>

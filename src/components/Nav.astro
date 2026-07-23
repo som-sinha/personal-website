@@ -1,0 +1,67 @@
+---
+const items = [
+  { href: "/notebook", label: "Notebook" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/projects", label: "Projects" },
+  { href: "/resume", label: "Resume" },
+];
+---
+
+<nav>
+  <a href="/" class="logo">Som Sinha</a>
+  <p class="tagline">
+    <span class="tagline-short">Nerdy Tinkerer at Heart, </span><span
+      class="tagline-rest">Software Developer at Work</span
+    >
+  </p>
+  <ul>
+    {
+      items.map((item) => (
+        <li>
+          <a href={item.href}>{item.label}</a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  nav {
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding: 0 1rem;
+  }
+
+  .logo,
+  .logo:hover {
+    font-family: var(--font-logo);
+    font-size: 2.5rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .tagline {
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  nav ul {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    text-decoration: none;
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 480px) {
+    .tagline-rest {
+      display: block;
+    }
+  }
+</style>

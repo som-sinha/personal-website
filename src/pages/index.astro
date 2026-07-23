@@ -1,55 +1,69 @@
 ---
-import "../styles/global.css";
-
-const title = "Som Sinha";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Personal site of Som Sinha: writing, photography, artworks, performances, dev projects, and resume."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap"
-      rel="stylesheet"
-    />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <h1 class="logo-heading">{title}</h1>
-      <p class="muted">
-        Theme test placeholder — tokens + Syne Mono. Real content lands in later
-        tickets.
-      </p>
-      <p>
-        <a href="mailto:hello@example.com">Contact link</a> · accent:
-        <span class="accent">toasted almond</span>
-      </p>
-    </main>
-  </body>
-</html>
+<BaseLayout title="Som Sinha">
+  <section class="hero">
+    <h1>Hi, I'm Som.</h1>
+    <p class="lede">
+      Nerdy tinkerer at heart, software developer at work — I write, make
+      pictures, and put things on stage.
+    </p>
+  </section>
+
+  <section class="about">
+    <h2>About Me</h2>
+    <p>
+      Placeholder bio. A few lines about who I am, what I care about, and what
+      you'll find around here — the Notebook, the Gallery, my Projects, and my
+      Resume.
+    </p>
+  </section>
+
+  <section class="currently">
+    <h2>Currently working on:</h2>
+    <p>
+      <a href="/projects">A featured project</a> — placeholder link to the currently-featured
+      project (wired up in T6).
+    </p>
+  </section>
+
+  <section class="contact">
+    <h2>Contact</h2>
+    <ul>
+      <li><a href="mailto:hello@example.com">Email</a></li>
+      <li><a href="https://github.com/">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/">LinkedIn</a></li>
+    </ul>
+  </section>
+</BaseLayout>
 
 <style>
-  .logo-heading {
+  section {
+    margin-block: 2.5rem;
+  }
+
+  .hero h1 {
     font-family: var(--font-logo);
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
   }
 
-  .muted {
+  .lede {
     color: var(--text-muted);
-    font-size: 1rem;
-    margin-bottom: 1rem;
   }
 
-  .accent {
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
     color: var(--accent);
+  }
+
+  .contact ul {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    flex-wrap: wrap;
   }
 </style>

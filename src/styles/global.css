@@ -43,8 +43,8 @@ body {
   margin-inline: auto;
   padding: 4em 1rem 2rem;
   font-family: var(--font-mono);
-  font-size: 1.5rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -54,6 +54,15 @@ main {
   max-width: var(--max-width);
   margin-inline: auto;
   padding: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-logo);
 }
 
 img,

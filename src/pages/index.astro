@@ -3,16 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Som Sinha">
-  <section class="hero">
-    <h1>Hi, I'm Som.</h1>
-    <p class="lede">
-      Nerdy tinkerer at heart, software developer at work — I write, make
-      pictures, and put things on stage.
-    </p>
-  </section>
-
   <section class="about">
-    <h2>About Me</h2>
+    <h1>Hi, I'm Som</h1>
     <p>
       Placeholder bio. A few lines about who I am, what I care about, and what
       you'll find around here — the Notebook, the Gallery, my Projects, and my
@@ -43,14 +35,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     margin-block: 2.5rem;
   }
 
-  .hero h1 {
-    font-family: var(--font-logo);
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .lede {
-    color: var(--text-muted);
+  section:first-of-type {
+    margin-top: 0;
   }
 
   h2 {

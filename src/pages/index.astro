@@ -1,22 +1,55 @@
 ---
-const title = "Som Sinha";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Personal site of Som Sinha: writing, photography, artworks, performances, dev projects, and resume."
-    />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <h1>{title}</h1>
-      <p>Astro scaffold is live. Real content lands in later tickets.</p>
-    </main>
-  </body>
-</html>
+<BaseLayout title="Som Sinha">
+  <section class="about">
+    <h1>Hi, I'm Som</h1>
+    <p>
+      Placeholder bio. A few lines about who I am, what I care about, and what
+      you'll find around here — the Notebook, the Gallery, my Projects, and my
+      Resume.
+    </p>
+  </section>
+
+  <section class="currently">
+    <h2>Currently working on:</h2>
+    <p>
+      <a href="/projects">A featured project</a> — placeholder link to the currently-featured
+      project (wired up in T6).
+    </p>
+  </section>
+
+  <section class="contact">
+    <h2>Contact</h2>
+    <ul>
+      <li><a href="mailto:hello@example.com">Email</a></li>
+      <li><a href="https://github.com/">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/">LinkedIn</a></li>
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    margin-block: 2.5rem;
+  }
+
+  section:first-of-type {
+    margin-top: 0;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+
+  .contact ul {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+</style>

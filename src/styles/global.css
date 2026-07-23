@@ -1,0 +1,87 @@
+/* Box model and margin reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+/* Root variables for colors, font, and spacing */
+:root {
+  /* Palette (from Coolors.co) */
+  --turf-green: #2c6e49;
+  --sea-green: #4c956c;
+  --light-yellow: #fefee3;
+  --warm-butter-yellow: #ede68a;
+  --powder-blush: #ffc9b9;
+  --toasted-almond: #d68c45;
+
+  /* Semantic roles — map palette → usage */
+  --bg: var(--turf-green);
+  --text: var(--warm-butter-yellow);
+  --text-muted: var(--powder-blush);
+  --link: var(--warm-butter-yellow);
+  --link-hover: var(--toasted-almond);
+  --accent: var(--toasted-almond);
+  --accent-soft: var(--powder-blush);
+
+  --font-logo: "Syne Mono", monospace;
+
+  --font-mono: monospace, system-ui, sans-serif;
+  --max-width: 720px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: 4em 1rem 2rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-logo);
+}
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+a {
+  color: var(--link);
+}
+
+a:hover {
+  color: var(--link-hover);
+}

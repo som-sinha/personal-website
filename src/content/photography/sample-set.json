@@ -1,0 +1,10 @@
+{
+  "title": "Sample Photo Set",
+  "date": "2026-07-20",
+  "description": "Placeholder photography set to wire up the photography collection.",
+  "images": [
+    "/gallery/photography/placeholder-1.jpg",
+    "/gallery/photography/placeholder-2.jpg"
+  ],
+  "draft": false
+}

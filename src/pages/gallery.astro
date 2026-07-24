@@ -1,8 +1,74 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const sections = [
+  {
+    href: "/gallery/photography",
+    title: "Photography",
+    description: "Sharp, digital photo sets.",
+  },
+  {
+    href: "/gallery/art",
+    title: "Art",
+    description: "Hand-made pieces, warmer and rustic.",
+  },
+  {
+    href: "/gallery/performances",
+    title: "Performances",
+    description: "Recorded sets and clips.",
+  },
+];
 ---
 
 <BaseLayout title="Gallery — Som Sinha">
   <h1>Gallery</h1>
-  <p>Stub — the gallery hub lands in T7.</p>
+  <p class="lede">Three rooms, three moods.</p>
+
+  <ul class="sections">
+    {
+      sections.map((section) => (
+        <li class="section">
+          <a href={section.href}>
+            <h2>{section.title}</h2>
+            <p>{section.description}</p>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
 </BaseLayout>
+
+<style>
+  .lede {
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+
+  .sections {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .section a {
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .section h2 {
+    font-family: var(--font-logo);
+    font-size: 1.35rem;
+    margin: 0;
+    color: var(--accent);
+  }
+
+  .section p {
+    margin-top: 0.5rem;
+  }
+</style>

@@ -1,0 +1,102 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const hasBody = (entry: { body?: string }) =>
+    (entry.body ?? "").trim().length > 0;
+  const projects = (await getCollection("projects")).filter(
+    (project) => !project.data.draft && hasBody(project),
+  );
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout
+  title={`${project.data.title} — Projects`}
+  description={project.data.description}
+>
+  <article>
+    <header class="project-header">
+      <h1>{project.data.title}</h1>
+      <p class="lede">{project.data.description}</p>
+      {
+        project.data.tech.length > 0 && (
+          <ul class="tech">
+            {project.data.tech.map((t) => (
+              <li>{t}</li>
+            ))}
+          </ul>
+        )
+      }
+      {
+        (project.data.links.github || project.data.links.demo) && (
+          <ul class="links">
+            {project.data.links.github && (
+              <li>
+                <a href={project.data.links.github} target="_blank">
+                  GitHub
+                </a>
+              </li>
+            )}
+            {project.data.links.demo && (
+              <li>
+                <a href={project.data.links.demo} target="_blank">
+                  Demo
+                </a>
+              </li>
+            )}
+          </ul>
+        )
+      }
+    </header>
+
+    <div class="project-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .project-header {
+    margin-bottom: 2rem;
+  }
+
+  .lede {
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+  }
+
+  .tech,
+  .links {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .tech li {
+    font-size: 0.8rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+  }
+
+  .links {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .project-body :global(> * + *) {
+    margin-top: 1rem;
+  }
+</style>

@@ -1,8 +1,125 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const hasBody = (entry: { body?: string }) =>
+  (entry.body ?? "").trim().length > 0;
+
+const projects = (await getCollection("projects"))
+  .filter((project) => !project.data.draft)
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+
+const cards = projects.map((project) => {
+  const detail = hasBody(project);
+  const primaryHref = detail
+    ? `/projects/${project.id}`
+    : (project.data.links.demo ?? project.data.links.github);
+  return { project, detail, primaryHref };
+});
 ---
 
 <BaseLayout title="Projects — Som Sinha">
   <h1>Projects</h1>
-  <p>Stub — curated project cards land in T6.</p>
+
+  {
+    cards.length === 0 ? (
+      <p>No projects yet.</p>
+    ) : (
+      <ul class="cards">
+        {cards.map(({ project, detail, primaryHref }) => (
+          <li class="card">
+            <h2>
+              {primaryHref ? (
+                <a href={primaryHref} target={detail ? undefined : "_blank"}>
+                  {project.data.title}
+                </a>
+              ) : (
+                project.data.title
+              )}
+            </h2>
+            <p>{project.data.description}</p>
+            {project.data.tech.length > 0 && (
+              <ul class="tech">
+                {project.data.tech.map((t) => (
+                  <li>{t}</li>
+                ))}
+              </ul>
+            )}
+            <ul class="links">
+              {detail && (
+                <li>
+                  <a href={`/projects/${project.id}`}>Details</a>
+                </li>
+              )}
+              {project.data.links.github && (
+                <li>
+                  <a href={project.data.links.github} target="_blank">
+                    GitHub
+                  </a>
+                </li>
+              )}
+              {project.data.links.demo && (
+                <li>
+                  <a href={project.data.links.demo} target="_blank">
+                    Demo
+                  </a>
+                </li>
+              )}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </BaseLayout>
+
+<style>
+  .cards {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .card h2 {
+    font-family: var(--font-logo);
+    font-size: 1.35rem;
+    margin: 0;
+  }
+
+  .card h2 a {
+    text-decoration: none;
+  }
+
+  .card > p {
+    margin-top: 0.5rem;
+  }
+
+  .tech {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .tech li {
+    font-size: 0.8rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+  }
+
+  .links {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+</style>

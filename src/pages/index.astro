@@ -1,5 +1,19 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const hasBody = (entry: { body?: string }) =>
+  (entry.body ?? "").trim().length > 0;
+
+const featured = (await getCollection("projects")).find(
+  (project) => !project.data.draft && project.data.featured,
+);
+
+const featuredHref = featured
+  ? hasBody(featured)
+    ? `/projects/${featured.id}`
+    : (featured.data.links.demo ?? featured.data.links.github ?? "/projects")
+  : "/projects";
 ---
 
 <BaseLayout title="Som Sinha">
@@ -15,8 +29,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <section class="currently">
     <h2>Currently working on:</h2>
     <p>
-      <a href="/projects">A featured project</a> — placeholder link to the currently-featured
-      project (wired up in T6).
+      {
+        featured ? (
+          <>
+            <a href={featuredHref}>{featured.data.title}</a> —{" "}
+            {featured.data.description}
+          </>
+        ) : (
+          <a href="/projects">See my projects</a>
+        )
+      }
     </p>
   </section>
 

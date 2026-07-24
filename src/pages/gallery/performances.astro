@@ -1,0 +1,203 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const performances = (await getCollection("performances"))
+  .filter((clip) => !clip.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const [hero, ...rest] = performances;
+
+const embed = (id: string) => `https://www.youtube-nocookie.com/embed/${id}`;
+const thumb = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+const dateFmt = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+});
+---
+
+<BaseLayout title="Performances — Som Sinha">
+  <div class="stream-theme">
+    <header class="head">
+      <h1>Performances</h1>
+      <p><a href="/gallery">← Gallery</a></p>
+    </header>
+
+    {
+      !hero ? (
+        <p>No performances yet.</p>
+      ) : (
+        <>
+          <section class="hero">
+            <div class="hero-player">
+              <iframe
+                src={embed(hero.data.youtubeId)}
+                title={hero.data.title}
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              />
+            </div>
+            <div class="hero-meta">
+              <p class="badge">Featured</p>
+              <h2>{hero.data.title}</h2>
+              <time datetime={hero.data.date.toISOString()}>
+                {dateFmt.format(hero.data.date)}
+              </time>
+              <p>{hero.data.description}</p>
+            </div>
+          </section>
+
+          {rest.length > 0 && (
+            <section class="row-section">
+              <h3>More performances</h3>
+              <div class="row">
+                {rest.map((clip) => (
+                  <a
+                    class="card"
+                    href={`https://www.youtube.com/watch?v=${clip.data.youtubeId}`}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <img
+                      src={thumb(clip.data.youtubeId)}
+                      alt={clip.data.title}
+                      loading="lazy"
+                    />
+                    <span class="card-title">{clip.data.title}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+        </>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  /* Scoped dark streaming-service theme */
+  .stream-theme {
+    --sbg: #0b0b0f;
+    --scard: #17171f;
+    --sfg: #f5f5f7;
+    --smuted: #a0a0ab;
+    --saccent: #e50914;
+    background: var(--sbg);
+    color: var(--sfg);
+    margin: -1rem;
+    padding: 1.5rem;
+    border-radius: 6px;
+  }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .stream-theme a {
+    color: var(--sfg);
+  }
+
+  .hero {
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .hero-player,
+  .card img {
+    aspect-ratio: 16 / 9;
+  }
+
+  .hero-player {
+    position: relative;
+    background: #000;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .hero-player iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--saccent);
+    color: #fff;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+  }
+
+  .hero-meta h2 {
+    margin-top: 0.5rem;
+    font-size: 1.6rem;
+  }
+
+  .hero-meta time {
+    display: block;
+    color: var(--smuted);
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+  }
+
+  .hero-meta p:last-child {
+    margin-top: 0.5rem;
+    color: var(--smuted);
+  }
+
+  .row-section {
+    margin-top: 2.5rem;
+  }
+
+  .row-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .row {
+    margin-top: 1rem;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(200px, 1fr);
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scroll-snap-type: x mandatory;
+  }
+
+  .card {
+    scroll-snap-align: start;
+    background: var(--scard);
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+  }
+
+  .card img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .card-title {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+  }
+</style>

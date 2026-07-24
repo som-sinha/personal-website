@@ -1,0 +1,121 @@
+---
+// Shared lightbox island. Any element with `data-lightbox="<src>"` (optionally
+// `data-caption`) opens the overlay when clicked. Reused across gallery themes.
+---
+
+<div class="lightbox" data-lightbox-overlay hidden>
+  <button
+    class="lightbox-close"
+    type="button"
+    aria-label="Close"
+    data-lightbox-close>×</button
+  >
+  <figure class="lightbox-figure">
+    <img alt="" data-lightbox-img />
+    <figcaption data-lightbox-caption></figcaption>
+  </figure>
+</div>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.85);
+  }
+
+  .lightbox[hidden] {
+    display: none;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    font-size: 2.5rem;
+    line-height: 1;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .lightbox-figure {
+    margin: 0;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .lightbox-figure img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    margin-inline: auto;
+  }
+
+  figcaption {
+    color: #eee;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  figcaption:empty {
+    display: none;
+  }
+</style>
+
+<script>
+  const overlay = document.querySelector<HTMLElement>(
+    "[data-lightbox-overlay]",
+  );
+  const img = overlay?.querySelector<HTMLImageElement>("[data-lightbox-img]");
+  const caption = overlay?.querySelector<HTMLElement>(
+    "[data-lightbox-caption]",
+  );
+
+  if (overlay && img && caption) {
+    const open = (src: string, alt: string) => {
+      img.src = src;
+      img.alt = alt;
+      caption.textContent = alt;
+      overlay.hidden = false;
+    };
+
+    const close = () => {
+      overlay.hidden = true;
+      img.src = "";
+    };
+
+    document.addEventListener("click", (event) => {
+      const trigger = (event.target as HTMLElement).closest<HTMLElement>(
+        "[data-lightbox]",
+      );
+      if (trigger) {
+        open(
+          trigger.dataset.lightbox ?? "",
+          trigger.dataset.caption ?? trigger.getAttribute("alt") ?? "",
+        );
+      }
+    });
+
+    overlay.addEventListener("click", (event) => {
+      if (
+        event.target === overlay ||
+        (event.target as HTMLElement).closest("[data-lightbox-close]")
+      ) {
+        close();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !overlay.hidden) close();
+    });
+  }
+</script>

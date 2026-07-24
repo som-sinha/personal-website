@@ -1,0 +1,127 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Lightbox from "../../components/Lightbox.astro";
+
+const sets = (await getCollection("photography"))
+  .filter((set) => !set.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const dateFmt = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+});
+---
+
+<BaseLayout title="Photography — Som Sinha">
+  <div class="photo-theme">
+    <header class="head">
+      <h1>Photography</h1>
+      <p><a href="/gallery">← Gallery</a></p>
+    </header>
+
+    {
+      sets.length === 0 ? (
+        <p>No photo sets yet.</p>
+      ) : (
+        sets.map((set) => (
+          <section class="set">
+            <div class="set-meta">
+              <h2>{set.data.title}</h2>
+              <time datetime={set.data.date.toISOString()}>
+                {dateFmt.format(set.data.date)}
+              </time>
+              <p>{set.data.description}</p>
+            </div>
+            <div class="grid">
+              {set.data.images.map((src, i) => (
+                <button
+                  class="tile"
+                  type="button"
+                  data-lightbox={src}
+                  data-caption={`${set.data.title} — ${i + 1}`}
+                >
+                  <img
+                    src={src}
+                    alt={`${set.data.title} — ${i + 1}`}
+                    loading="lazy"
+                  />
+                </button>
+              ))}
+            </div>
+          </section>
+        ))
+      )
+    }
+  </div>
+
+  <Lightbox />
+</BaseLayout>
+
+<style>
+  /* Scoped clean/digital theme */
+  .photo-theme {
+    --photo-bg: #0f1115;
+    --photo-fg: #e7e9ee;
+    --photo-muted: #9aa0ac;
+    --photo-line: #262a33;
+  }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .set {
+    margin-top: 2.5rem;
+  }
+
+  .set-meta h2 {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-size: 1.25rem;
+  }
+
+  .set-meta time {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 0.15rem;
+  }
+
+  .set-meta p {
+    margin-top: 0.4rem;
+  }
+
+  .grid {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .tile {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: zoom-in;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+  }
+
+  .tile:hover img {
+    transform: scale(1.04);
+  }
+</style>

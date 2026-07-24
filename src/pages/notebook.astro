@@ -1,8 +1,63 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const dateFmt = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
 ---
 
 <BaseLayout title="Notebook — Som Sinha">
   <h1>Notebook</h1>
-  <p>Stub — the blog index lands in T5.</p>
+
+  {
+    posts.length === 0 ? (
+      <p>No posts yet.</p>
+    ) : (
+      <ul class="posts">
+        {posts.map((post) => (
+          <li>
+            <a href={`/notebook/${post.id}`}>{post.data.title}</a>
+            <time datetime={post.data.date.toISOString()}>
+              {dateFmt.format(post.data.date)}
+            </time>
+            <p>{post.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </BaseLayout>
+
+<style>
+  .posts {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .posts a {
+    font-family: var(--font-logo);
+    font-size: 1.35rem;
+    text-decoration: none;
+  }
+
+  .posts time {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+
+  .posts p {
+    margin-top: 0.5rem;
+  }
+</style>

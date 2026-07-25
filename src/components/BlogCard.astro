@@ -1,0 +1,37 @@
+---
+import type { Post } from "../lib/notebook";
+import { longDate } from "../lib/date";
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+---
+
+<li>
+  <a href={`/notebook/${post.id}`}>{post.data.title}</a>
+  <time datetime={post.data.date.toISOString()}>
+    {longDate.format(post.data.date)}
+  </time>
+  <p>{post.data.description}</p>
+</li>
+
+<style>
+  a {
+    font-family: var(--font-logo);
+    font-size: 1.35rem;
+    text-decoration: none;
+  }
+
+  time {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+
+  p {
+    margin-top: 0.5rem;
+  }
+</style>

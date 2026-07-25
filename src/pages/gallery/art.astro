@@ -1,16 +1,10 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Lightbox from "../../components/Lightbox.astro";
+import ArtPieceCard from "../../components/ArtPieceCard.astro";
+import { artPieces } from "../../lib/gallery";
 
-const pieces = (await getCollection("art"))
-  .filter((piece) => !piece.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const dateFmt = new Intl.DateTimeFormat("en-US", {
-  year: "numeric",
-  month: "long",
-});
+const pieces = await artPieces();
 ---
 
 <BaseLayout title="Art — Som Sinha">
@@ -26,31 +20,7 @@ const dateFmt = new Intl.DateTimeFormat("en-US", {
       ) : (
         <div class="wall">
           {pieces.map((piece) => (
-            <figure class="piece">
-              <div class="frame">
-                {piece.data.images.map((src, i) => (
-                  <button
-                    class="canvas"
-                    type="button"
-                    data-lightbox={src}
-                    data-caption={piece.data.title}
-                  >
-                    <img
-                      src={src}
-                      alt={`${piece.data.title} — ${i + 1}`}
-                      loading="lazy"
-                    />
-                  </button>
-                ))}
-              </div>
-              <figcaption>
-                <h2>{piece.data.title}</h2>
-                <time datetime={piece.data.date.toISOString()}>
-                  {dateFmt.format(piece.data.date)}
-                </time>
-                <p>{piece.data.description}</p>
-              </figcaption>
-            </figure>
+            <ArtPieceCard piece={piece} />
           ))}
         </div>
       )
@@ -103,55 +73,5 @@ const dateFmt = new Intl.DateTimeFormat("en-US", {
     margin-top: 2rem;
     display: grid;
     gap: 2.5rem;
-  }
-
-  .piece {
-    margin: 0;
-  }
-
-  .frame {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 1rem;
-    padding: 0.75rem;
-    background: #fff;
-    border: 10px solid var(--frame);
-    border-radius: 2px;
-    box-shadow: 0 6px 18px rgba(59, 47, 34, 0.25);
-  }
-
-  .canvas {
-    padding: 0;
-    border: none;
-    background: none;
-    cursor: zoom-in;
-  }
-
-  .canvas img {
-    width: 100%;
-  }
-
-  figcaption {
-    margin-top: 1rem;
-    text-align: center;
-  }
-
-  figcaption h2 {
-    font-family: Georgia, "Times New Roman", serif;
-    font-style: italic;
-    font-size: 1.4rem;
-    color: var(--ink);
-  }
-
-  figcaption time {
-    display: block;
-    color: var(--ink-muted);
-    font-size: 0.85rem;
-    margin-top: 0.2rem;
-  }
-
-  figcaption p {
-    margin-top: 0.5rem;
-    color: var(--ink-muted);
   }
 </style>

@@ -1,18 +1,10 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { featuredProject, primaryHref } from "../lib/projects";
 
-const hasBody = (entry: { body?: string }) =>
-  (entry.body ?? "").trim().length > 0;
-
-const featured = (await getCollection("projects")).find(
-  (project) => !project.data.draft && project.data.featured,
-);
-
+const featured = await featuredProject();
 const featuredHref = featured
-  ? hasBody(featured)
-    ? `/projects/${featured.id}`
-    : (featured.data.links.demo ?? featured.data.links.github ?? "/projects")
+  ? (primaryHref(featured) ?? "/projects")
   : "/projects";
 ---
 

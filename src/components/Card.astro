@@ -1,0 +1,57 @@
+---
+interface Props {
+  href?: string;
+  target?: string;
+}
+
+const { href, target } = Astro.props;
+---
+
+<li class="card">
+  {
+    href ? (
+      <a class="card-link" href={href} target={target}>
+        <slot />
+      </a>
+    ) : (
+      <slot />
+    )
+  }
+</li>
+
+<style>
+  .card {
+    background: var(--warm-butter-yellow);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    list-style: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: var(--turf-green);
+  }
+
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Shared title styling for slotted headings */
+  .card :global(.card-title) {
+    font-family: var(--font-logo);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--turf-green);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .card :global(a.card-title:hover),
+  .card-link:hover :global(.card-title) {
+    color: var(--toasted-almond);
+  }
+
+  .card :global(p) {
+    color: var(--turf-green);
+  }
+</style>

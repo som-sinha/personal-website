@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Card from "../components/Card.astro";
 
 const sections = [
   {
@@ -27,12 +28,10 @@ const sections = [
   <ul class="sections">
     {
       sections.map((section) => (
-        <li class="section">
-          <a href={section.href}>
-            <h2>{section.title}</h2>
-            <p>{section.description}</p>
-          </a>
-        </li>
+        <Card href={section.href}>
+          <h2 class="card-title">{section.title}</h2>
+          <p>{section.description}</p>
+        </Card>
       ))
     }
   </ul>
@@ -52,23 +51,7 @@ const sections = [
     margin-top: 2rem;
   }
 
-  .section a {
-    display: block;
-    padding: 1.5rem;
-    border: 1px solid var(--accent);
-    border-radius: 0.5rem;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .section h2 {
-    font-family: var(--font-logo);
-    font-size: 1.35rem;
-    margin: 0;
-    color: var(--accent);
-  }
-
-  .section p {
+  .sections :global(p) {
     margin-top: 0.5rem;
   }
 </style>

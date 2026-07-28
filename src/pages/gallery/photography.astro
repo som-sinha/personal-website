@@ -9,37 +9,177 @@ const sets = await photographySets();
 
 <BaseLayout title="Photography — Som Sinha">
   <div class="photo-theme">
-    <header class="head">
-      <h1>Photography</h1>
-      <p><a href="/gallery">← Gallery</a></p>
+    <header class="titlebar">
+      <div class="traffic">
+        <span class="dot close"></span>
+        <span class="dot min"></span>
+        <span class="dot max"></span>
+      </div>
+      <div class="toolbar">
+        <a class="back" href="/gallery">‹ Gallery</a>
+        <span class="app-title">Photos</span>
+        <span class="spacer"></span>
+      </div>
     </header>
 
-    {
-      sets.length === 0 ? (
-        <p>No photo sets yet.</p>
-      ) : (
-        sets.map((set) => <PhotoSet set={set} />)
-      )
-    }
+    <div class="app-body">
+      <aside class="sidebar">
+        <p class="sidebar-label">Library</p>
+        <ul>
+          <li class="active">All Photos</li>
+        </ul>
+        <p class="sidebar-label">Albums</p>
+        <ul>
+          {sets.map((set) => <li>{set.data.title}</li>)}
+        </ul>
+      </aside>
+
+      <main class="content">
+        {
+          sets.length === 0 ? (
+            <p class="empty">No photo sets yet.</p>
+          ) : (
+            sets.map((set) => <PhotoSet set={set} />)
+          )
+        }
+      </main>
+    </div>
   </div>
 
   <Lightbox />
 </BaseLayout>
 
 <style>
-  /* Scoped clean/digital theme */
+  /* Scoped macOS Photos app theme */
   .photo-theme {
-    --photo-bg: #0f1115;
-    --photo-fg: #e7e9ee;
-    --photo-muted: #9aa0ac;
-    --photo-line: #262a33;
+    --photo-bg: #ececec;
+    --photo-panel: #f6f6f6;
+    --photo-sidebar: #e8e8ea;
+    --photo-fg: #1d1d1f;
+    --photo-muted: #86868b;
+    --photo-line: #d6d6d8;
+    --photo-accent: #0a84ff;
+
+    margin: -1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--photo-panel);
+    color: var(--photo-fg);
+    border: 1px solid var(--photo-line);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+    font-family:
+      -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+      sans-serif;
   }
 
-  .head {
+  /* Title bar with traffic lights + toolbar */
+  .titlebar {
+    background: linear-gradient(#f6f6f6, #e9e9e9);
+    border-bottom: 1px solid var(--photo-line);
+  }
+
+  .traffic {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.65rem 0.8rem 0;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .dot.close {
+    background: #ff5f57;
+  }
+  .dot.min {
+    background: #febc2e;
+  }
+  .dot.max {
+    background: #28c840;
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
     gap: 1rem;
-    flex-wrap: wrap;
+    padding: 0.4rem 1rem 0.7rem;
+  }
+
+  .toolbar .back {
+    color: var(--photo-accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .toolbar .app-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .toolbar .spacer {
+    flex: 1;
+  }
+
+  /* Body: sidebar + content */
+  .app-body {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    height: min(70vh, 640px);
+  }
+
+  .sidebar {
+    background: var(--photo-sidebar);
+    border-right: 1px solid var(--photo-line);
+    padding: 0.75rem 0.5rem;
+    overflow-y: auto;
+  }
+
+  .sidebar-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--photo-muted);
+    padding: 0.5rem 0.6rem 0.25rem;
+  }
+
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.5rem;
+  }
+
+  .sidebar li {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    color: var(--photo-fg);
+  }
+
+  .sidebar li.active {
+    background: var(--photo-accent);
+    color: #fff;
+  }
+
+  .content {
+    padding: 1.25rem 1.5rem;
+    background: var(--photo-panel);
+    overflow: auto;
+  }
+
+  .empty {
+    color: var(--photo-muted);
+  }
+
+  @media (max-width: 640px) {
+    .app-body {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+    .sidebar {
+      display: none;
+    }
   }
 </style>

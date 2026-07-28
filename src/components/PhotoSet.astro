@@ -33,33 +33,48 @@ const { title, date, description, images } = set.data;
 </section>
 
 <style>
+  /* Theme vars (--photo-*) inherit from the .photo-theme wrapper. */
   .set {
-    margin-top: 2.5rem;
+    margin-top: 1.75rem;
+  }
+
+  .set:first-child {
+    margin-top: 0;
+  }
+
+  .set-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
   }
 
   .set-meta h2 {
-    font-family: var(--font-mono);
+    font-family:
+      -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+      sans-serif;
     font-weight: 600;
     letter-spacing: -0.01em;
-    font-size: 1.25rem;
+    font-size: 1.05rem;
+    color: var(--photo-fg);
   }
 
   .set-meta time {
-    display: block;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-top: 0.15rem;
+    color: var(--photo-muted);
+    font-size: 0.8rem;
   }
 
   .set-meta p {
-    margin-top: 0.4rem;
+    flex-basis: 100%;
+    color: var(--photo-muted);
+    font-size: 0.85rem;
+    margin: 0;
   }
 
   .grid {
-    margin-top: 1rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 3px;
   }
 
   .tile {
@@ -69,17 +84,25 @@ const { title, date, description, images } = set.data;
     cursor: zoom-in;
     aspect-ratio: 1;
     overflow: hidden;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 
   .tile img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.2s ease;
+    transition:
+      transform 0.15s ease,
+      filter 0.15s ease;
   }
 
   .tile:hover img {
-    transform: scale(1.04);
+    transform: scale(1.05);
+    filter: brightness(1.05);
+  }
+
+  .tile:focus-visible {
+    outline: 3px solid var(--photo-accent);
+    outline-offset: 1px;
   }
 </style>

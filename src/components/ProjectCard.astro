@@ -1,5 +1,6 @@
 ---
 import { type Project, hasBody, primaryHref } from "../lib/projects";
+import Card from "./Card.astro";
 
 interface Props {
   project: Project;
@@ -11,19 +12,19 @@ const href = primaryHref(project);
 const { title, description, tech, links } = project.data;
 ---
 
-<li class="card">
+<Card>
   <h2>
     {
       href ? (
-        <a href={href} target={detail ? undefined : "_blank"}>
+        <a class="card-title" href={href} target={detail ? undefined : "_blank"}>
           {title}
         </a>
       ) : (
-        title
+        <span class="card-title">{title}</span>
       )
     }
   </h2>
-  <p>{description}</p>
+  <p class="desc">{description}</p>
   {
     tech.length > 0 && (
       <ul class="tech">
@@ -60,20 +61,14 @@ const { title, description, tech, links } = project.data;
       )
     }
   </ul>
-</li>
+</Card>
 
 <style>
-  .card h2 {
-    font-family: var(--font-logo);
-    font-size: 1.35rem;
+  h2 {
     margin: 0;
   }
 
-  .card h2 a {
-    text-decoration: none;
-  }
-
-  .card > p {
+  .desc {
     margin-top: 0.5rem;
   }
 

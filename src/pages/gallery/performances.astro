@@ -1,10 +1,20 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PerformanceCard from "../../components/PerformanceCard.astro";
-import { performanceRows, youtubeEmbed } from "../../lib/gallery";
-import { monthYear } from "../../lib/date";
 
-const { hero, rest } = await performanceRows();
+const performances = (await getCollection("performances"))
+  .filter((clip) => !clip.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const [hero, ...rest] = performances;
+
+const embed = (id: string) => `https://www.youtube-nocookie.com/embed/${id}`;
+const thumb = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+const dateFmt = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+});
 ---
 
 <BaseLayout title="Performances — Som Sinha">
@@ -22,7 +32,7 @@ const { hero, rest } = await performanceRows();
           <section class="hero">
             <div class="hero-player">
               <iframe
-                src={youtubeEmbed(hero.data.youtubeId)}
+                src={embed(hero.data.youtubeId)}
                 title={hero.data.title}
                 loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -33,7 +43,7 @@ const { hero, rest } = await performanceRows();
               <p class="badge">Featured</p>
               <h2>{hero.data.title}</h2>
               <time datetime={hero.data.date.toISOString()}>
-                {monthYear.format(hero.data.date)}
+                {dateFmt.format(hero.data.date)}
               </time>
               <p>{hero.data.description}</p>
             </div>
@@ -44,7 +54,19 @@ const { hero, rest } = await performanceRows();
               <h3>More performances</h3>
               <div class="row">
                 {rest.map((clip) => (
-                  <PerformanceCard clip={clip} />
+                  <a
+                    class="card"
+                    href={`https://www.youtube.com/watch?v=${clip.data.youtubeId}`}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <img
+                      src={thumb(clip.data.youtubeId)}
+                      alt={clip.data.title}
+                      loading="lazy"
+                    />
+                    <span class="card-title">{clip.data.title}</span>
+                  </a>
                 ))}
               </div>
             </section>
@@ -88,9 +110,13 @@ const { hero, rest } = await performanceRows();
     gap: 1rem;
   }
 
+  .hero-player,
+  .card img {
+    aspect-ratio: 16 / 9;
+  }
+
   .hero-player {
     position: relative;
-    aspect-ratio: 16 / 9;
     background: #000;
     border-radius: 6px;
     overflow: hidden;
@@ -149,5 +175,29 @@ const { hero, rest } = await performanceRows();
     overflow-x: auto;
     padding-bottom: 0.5rem;
     scroll-snap-type: x mandatory;
+  }
+
+  .card {
+    scroll-snap-align: start;
+    background: var(--scard);
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+  }
+
+  .card img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .card-title {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
   }
 </style>

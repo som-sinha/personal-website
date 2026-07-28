@@ -2,6 +2,6 @@
   "title": "Sample Artwork",
   "date": "2026-07-20",
   "description": "Placeholder art piece to wire up the art collection.",
-  "images": ["/gallery/art/placeholder-1.jpg"],
+  "images": ["https://picsum.photos/seed/art-1/1000/700"],
   "draft": false
 }

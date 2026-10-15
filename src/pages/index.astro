@@ -37,12 +37,25 @@ const featuredHref = featured
   <section class="contact">
     <h2>Contact</h2>
     <ul>
-      <li><a href="mailto:mailsomsinha@gmail.com">Email</a></li>
+      <li>
+        <!-- Address is assembled in the browser so it never sits in the HTML
+             for scrapers to harvest. -->
+        <a class="email" data-user="mailsomsinha" data-domain="gmail.com"
+          >Email</a
+        >
+        <noscript>mailsomsinha [at] gmail [dot] com</noscript>
+      </li>
       <li><a href="https://github.com/som-sinha">GitHub</a></li>
       <li><a href="https://www.linkedin.com/in/som-sinha">LinkedIn</a></li>
     </ul>
   </section>
 </BaseLayout>
+
+<script>
+  for (const link of document.querySelectorAll<HTMLAnchorElement>(".email")) {
+    link.href = `mailto:${link.dataset.user}@${link.dataset.domain}`;
+  }
+</script>
 
 <style>
   section {

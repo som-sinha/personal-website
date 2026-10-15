@@ -6,5 +6,5 @@ links:
   github: "https://github.com/som-sinha/pathfinder-viz"
   demo: "https://pathfinder-viz.example.com"
 featured: false
-draft: false
+draft: true
 ---

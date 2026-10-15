@@ -1,10 +1,27 @@
 ---
+import { allPosts } from "../lib/notebook";
+import { gallerySections } from "../lib/gallery";
+import { publishedProjects } from "../lib/collection";
+
+// Sections only show in the nav once they have published content.
+const [posts, rooms, projects] = await Promise.all([
+  allPosts(),
+  gallerySections(),
+  publishedProjects(),
+]);
+
 const items = [
-  { href: "/notebook", label: "Notebook", emoji: "📝" },
-  { href: "/gallery", label: "Gallery", emoji: "🖼️" },
-  { href: "/projects", label: "Projects", emoji: "🛠️" },
-  { href: "/resume", label: "Resume", emoji: "💼" },
-];
+  { href: "/notebook", label: "Notebook", emoji: "📝", show: posts.length > 0 },
+  { href: "/gallery", label: "Gallery", emoji: "🖼️", show: rooms.length > 0 },
+  {
+    href: "/projects",
+    label: "Projects",
+    emoji: "🛠️",
+    show: projects.length > 0,
+  },
+  // Resume is still a stub (T11); hidden until it has real content.
+  { href: "/resume", label: "Resume", emoji: "💼", show: false },
+].filter((item) => item.show);
 ---
 
 <nav>

@@ -1,24 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Card from "../components/Card.astro";
+import { gallerySections } from "../lib/gallery";
 
-const sections = [
-  {
-    href: "/gallery/photography",
-    title: "Photography",
-    description: "Sharp, digital photo sets.",
-  },
-  {
-    href: "/gallery/art",
-    title: "Art",
-    description: "Hand-made pieces, warmer and rustic.",
-  },
-  {
-    href: "/gallery/performances",
-    title: "Performances",
-    description: "Recorded sets and clips.",
-  },
-];
+const sections = await gallerySections();
 ---
 
 <BaseLayout title="Gallery — Som Sinha">

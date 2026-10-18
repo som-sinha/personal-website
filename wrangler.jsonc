@@ -1,0 +1,10 @@
+// Cloudflare Workers config: serve the static `astro build` output as assets.
+// Having this file stops `wrangler deploy` from auto-configuring the project
+// (which tries to add the Astro SSR adapter); the site stays fully static.
+{
+  "name": "personal-website",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+  },
+}

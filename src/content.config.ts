@@ -69,6 +69,10 @@ const performances = defineCollection({
     date: z.coerce.date(),
     description: z.string(),
     youtubeId: z.string(),
+    // Optional poster under `public/`, shown beside the featured clip.
+    poster: z.string().optional(),
+    // Credit lines, e.g. "Directed by …", "Starring …".
+    credits: z.array(z.string()).default([]),
     draft,
   }),
 });

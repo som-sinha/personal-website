@@ -4,7 +4,7 @@ description: "This site, built from scratch with Astro and deployed on Cloudflar
 tech: ["Astro", "TypeScript", "CSS"]
 links:
   github: "https://github.com/som-sinha/personal-website"
-featured: true
+featured: false
 draft: false
 ---
 

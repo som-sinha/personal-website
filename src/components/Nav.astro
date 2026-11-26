@@ -10,15 +10,16 @@ const [posts, rooms, projects] = await Promise.all([
   publishedProjects(),
 ]);
 
+// Order: Projects, then Gallery, then everything else.
 const items = [
-  { href: "/notebook", label: "Notebook", emoji: "📝", show: posts.length > 0 },
-  { href: "/gallery", label: "Gallery", emoji: "🖼️", show: rooms.length > 0 },
   {
     href: "/projects",
     label: "Projects",
     emoji: "🛠️",
     show: projects.length > 0,
   },
+  { href: "/gallery", label: "Gallery", emoji: "🖼️", show: rooms.length > 0 },
+  { href: "/notebook", label: "Notebook", emoji: "📝", show: posts.length > 0 },
   // Resume is still a stub (T11); hidden until it has real content.
   { href: "/resume", label: "Resume", emoji: "💼", show: false },
 ].filter((item) => item.show);

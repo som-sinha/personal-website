@@ -29,13 +29,29 @@ const { hero, rest } = await performanceRows();
                 allowfullscreen
               />
             </div>
-            <div class="hero-meta">
-              <p class="badge">Featured</p>
-              <h2>{hero.data.title}</h2>
-              <time datetime={hero.data.date.toISOString()}>
-                {monthYear.format(hero.data.date)}
-              </time>
-              <p>{hero.data.description}</p>
+            <div class="hero-info">
+              {hero.data.poster && (
+                <img
+                  class="hero-poster"
+                  src={hero.data.poster}
+                  alt={`${hero.data.title} poster`}
+                />
+              )}
+              <div class="hero-meta">
+                <p class="badge">Featured</p>
+                <h2>{hero.data.title}</h2>
+                <time datetime={hero.data.date.toISOString()}>
+                  {monthYear.format(hero.data.date)}
+                </time>
+                <p class="hero-desc">{hero.data.description}</p>
+                {hero.data.credits.length > 0 && (
+                  <ul class="credits">
+                    {hero.data.credits.map((line) => (
+                      <li>{line}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </section>
 
@@ -127,9 +143,36 @@ const { hero, rest } = await performanceRows();
     margin-top: 0.2rem;
   }
 
-  .hero-meta p:last-child {
+  .hero-info {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .hero-poster {
+    width: 140px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero-desc {
     margin-top: 0.5rem;
     color: var(--smuted);
+  }
+
+  .credits {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--smuted);
+  }
+
+  @media (max-width: 480px) {
+    .hero-poster {
+      width: 100px;
+    }
   }
 
   .row-section {

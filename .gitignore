@@ -25,3 +25,6 @@ pnpm-debug.log*
 # planning docs (kept local, not published)
 docs/
 .scratch/
+
+# raw photo downloads (copied into public/photos/)
+images/

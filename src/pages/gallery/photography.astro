@@ -34,7 +34,7 @@ const sets = await photographySets();
         </ul>
       </aside>
 
-      <main class="content">
+      <div class="content">
         {
           sets.length === 0 ? (
             <p class="empty">No photo sets yet.</p>
@@ -42,7 +42,7 @@ const sets = await photographySets();
             sets.map((set) => <PhotoSet set={set} />)
           )
         }
-      </main>
+      </div>
     </div>
   </div>
 

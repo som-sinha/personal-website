@@ -54,4 +54,13 @@ const { href, target } = Astro.props;
   .card :global(p) {
     color: var(--turf-green);
   }
+
+  /* Site links are yellow, which vanishes on the yellow card */
+  .card :global(a) {
+    color: var(--turf-green);
+  }
+
+  .card :global(a:hover) {
+    color: var(--toasted-almond);
+  }
 </style>

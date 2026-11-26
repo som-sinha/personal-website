@@ -16,7 +16,11 @@ const { title, description, tech, links } = project.data;
   <h2>
     {
       href ? (
-        <a class="card-title" href={href} target={detail ? undefined : "_blank"}>
+        <a
+          class="card-title"
+          href={href}
+          target={detail ? undefined : "_blank"}
+        >
           {title}
         </a>
       ) : (
